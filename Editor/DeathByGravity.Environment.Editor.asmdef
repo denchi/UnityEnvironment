@@ -2,7 +2,7 @@
     "name": "DeathByGravity.Environment.Editor",
     "rootNamespace": "",
     "references": [
-        "GUID:542cbad11fd614d0e80eb2b09bb5d017"
+        "DeathByGravity.Environment"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
