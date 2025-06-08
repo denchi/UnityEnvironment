@@ -1,0 +1,12 @@
+{
+  "name": "com.deathbygravitystudio.environment",
+  "version": "0.0.1",
+  "displayName": "Unity Environment",
+  "description": "Environment management for Unity projects",
+  "keywords": [ "unity", "environment" ],
+  "author": {
+    "name": "Death By Gravity Studio",
+    "email": "contact@deathbygravity.studio",
+    "url": "https://deathbygravity.studio"
+  }
+}
