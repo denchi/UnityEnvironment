@@ -1,0 +1,16 @@
+{
+    "name": "Credentials.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:542cbad11fd614d0e80eb2b09bb5d017"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
