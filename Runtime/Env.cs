@@ -1,9 +1,13 @@
+using System.IO;
 using System.Linq;
+using UnityEngine;
 
 namespace Game.Environment
 {
     public static class Env
     {
+        private static bool _envLoaded;
+        
         // Automatically load environment variables when the class is first accessed
         static Env()
         {
@@ -12,43 +16,59 @@ namespace Game.Environment
 
         private static bool LoadEnv()
         {
-            var paths = new []
+            _envLoaded = false;
+
+            var paths = new[]
             {
-                UnityEngine.Application.streamingAssetsPath,
-                UnityEngine.Application.dataPath
+                Path.Combine(Application.streamingAssetsPath, ".env"),
             };
 
             var envFilePath = paths.FirstOrDefault(path =>
             {
-                var envFilePath = System.IO.Path.Combine(path, ".env");
-                return System.IO.File.Exists(envFilePath);
+                return File.Exists(path);
             });
 
             if (string.IsNullOrEmpty(envFilePath)) 
                 return false;
                 
-            var lines = System.IO.File.ReadAllLines(envFilePath);
+            var lines = File.ReadAllLines(envFilePath);
             foreach (var line in lines)
             {
                 if (string.IsNullOrWhiteSpace(line) || line.StartsWith("#")) 
                     continue;
-                    
-                var parts = line.Split('=');
-                if (parts.Length != 2)
+                
+                var idx = line.IndexOf('=');
+                if (idx < 0)
                 {
-                    UnityEngine.Debug.LogWarning($"Invalid line in .env file: {line}");
+                    Debug.LogWarning($"Invalid line in .env file: {line}");
                     continue;
                 }
                 
-                System.Environment.SetEnvironmentVariable(parts[0].Trim(), parts[1].Trim());
+                var key = line.Substring(0, idx).Trim();
+                var value = line.Substring(idx + 1).Trim();
+                    
+                System.Environment.SetEnvironmentVariable(key, value);
             }
+            
+            _envLoaded = true;
 
             return true;
         }
         
         public static string GetEnv(string key)
         {
+            if (!_envLoaded)
+            {
+                LoadEnv();
+            }
+            
             return System.Environment.GetEnvironmentVariable(key);
+        }
+        
+        public static bool TryGetEnv(string key, out string value)
+        {
+            value = GetEnv(key);
+            return !string.IsNullOrEmpty(value);
         }
     }
 }
